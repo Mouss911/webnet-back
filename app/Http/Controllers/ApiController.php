@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class ApiController extends Controller
 {
@@ -15,8 +15,8 @@ class ApiController extends Controller
         
          $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|unique:users',
-            'password' => 'required|min:6|confirmed',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8'
          ]);
 
         if ($validator->fails()) {
@@ -28,16 +28,19 @@ class ApiController extends Controller
             return response()->json($response, 401);
         }
 
-        User::create([
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => bcrypt($request->password),
+            'password' => Hash::make($request->password),
+            'role' => 'user' // Définit automatiquement comme utilisateur normal
         ]);
 
+        $token = $user->createToken('auth_token')->plainTextToken;
+
         return response()->json([
-            'status' => true,
-            'message' => 'User registered successfully'
-        ]);
+            'user' => $user,
+            'token' => $token
+        ], 201);
     }
 
     // Login

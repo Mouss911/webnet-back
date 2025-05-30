@@ -13,8 +13,15 @@ class CategoryController extends Controller
      */
     public function index(): JsonResponse
     {
-        $categories = Category::with('products')->get();
-        return response()->json($categories);
+        try {
+            $categories = Category::with('products')->get();
+            return response()->json($categories);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Error fetching categories',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
     /**
@@ -44,7 +51,14 @@ class CategoryController extends Controller
      */
     public function show(Category $category): JsonResponse
     {
-        return response()->json($category->load('products'));
+        try {
+            return response()->json($category->load('products'));
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Error fetching category',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
     /**
