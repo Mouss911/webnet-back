@@ -14,21 +14,37 @@ class CategorySeeder extends Seeder
     {
         $categories = [
             [
-                'name' => 'Electronics',
-                'description' => 'Electronic devices and accessories'
+                'name' => 'Électronique',
+                'description' => 'Appareils électroniques et accessoires'
             ],
             [
-                'name' => 'Clothing',
-                'description' => 'Fashion and apparel'
+                'name' => 'Vêtements',
+                'description' => 'Mode et habillement'
             ],
             [
-                'name' => 'Books',
-                'description' => 'Books and publications'
+                'name' => 'Livres',
+                'description' => 'Livres et publications'
             ],
             [
-                'name' => 'Home & Garden',
-                'description' => 'Home decor and gardening items'
+                'name' => 'Maison & Jardin',
+                'description' => 'Décoration d\'intérieur et articles de jardinage'
             ],
+            [
+                'name' => 'Sport & Loisirs',
+                'description' => 'Équipements sportifs et articles de loisirs'
+            ],
+            [
+                'name' => 'Beauté & Santé',
+                'description' => 'Produits de beauté et de bien-être'
+            ],
+            [
+                'name' => 'Informatique',
+                'description' => 'Ordinateurs et accessoires informatiques'
+            ],
+            [
+                'name' => 'Alimentation',
+                'description' => 'Produits alimentaires et boissons'
+            ]
         ];
 
         foreach ($categories as $category) {
