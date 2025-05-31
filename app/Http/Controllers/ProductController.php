@@ -6,10 +6,38 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
+/**
+ * @OA\Info(
+ *     version="1.0.0",
+ *     title="E-commerce API Documentation",
+ *     description="Documentation de l'API E-commerce",
+ *     @OA\Contact(
+ *         email="votre@email.com"
+ *     )
+ * )
+ * @OA\Server(
+ *     description="Local Environment",
+ *     url="http://localhost:8000/api"
+ * )
+ */
 class ProductController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * @OA\Get(
+     *     path="/products",
+     *     tags={"Products"},
+     *     summary="Liste tous les produits",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Liste des produits récupérée avec succès",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="data", type="array",
+     *                 @OA\Items(ref="#/components/schemas/Product")
+     *             )
+     *         )
+     *     )
+     * )
      */
     public function index(): JsonResponse
     {
@@ -44,7 +72,27 @@ class ProductController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * @OA\Get(
+     *     path="/products/{id}",
+     *     tags={"Products"},
+     *     summary="Affiche un produit spécifique",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID du produit",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Produit trouvé avec succès",
+     *         @OA\JsonContent(ref="#/components/schemas/Product")
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Produit non trouvé"
+     *     )
+     * )
      */
     public function show(Product $product): JsonResponse
     {

@@ -6,10 +6,29 @@ use App\Models\Coupon;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
+/**
+ * @OA\Tag(
+ *     name="Coupons",
+ *     description="API Endpoints pour la gestion des coupons"
+ * )
+ */
 class CouponController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * @OA\Get(
+     *     path="/admin/coupons",
+     *     tags={"Coupons"},
+     *     summary="Liste tous les coupons",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Liste des coupons récupérée avec succès",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(ref="#/components/schemas/Coupon")
+     *         )
+     *     )
+     * )
      */
     public function index(): JsonResponse
     {
@@ -18,15 +37,28 @@ class CouponController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     * @OA\Post(
+     *     path="/admin/coupons",
+     *     tags={"Coupons"},
+     *     summary="Crée un nouveau coupon",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"code","type","value","expires_at"},
+     *             @OA\Property(property="code", type="string", example="SUMMER2025"),
+     *             @OA\Property(property="type", type="string", enum={"fixed","percentage"}, example="percentage"),
+     *             @OA\Property(property="value", type="number", example=10),
+     *             @OA\Property(property="expires_at", type="string", format="date-time"),
+     *             @OA\Property(property="min_purchase", type="number", example=100)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Coupon créé avec succès",
+     *         @OA\JsonContent(ref="#/components/schemas/Coupon")
+     *     )
+     * )
      */
     public function store(Request $request): JsonResponse
     {

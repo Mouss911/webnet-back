@@ -6,10 +6,28 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
+/**
+ * @OA\Tag(
+ *     name="Categories",
+ *     description="API Endpoints pour la gestion des catégories"
+ * )
+ */
 class CategoryController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * @OA\Get(
+     *     path="/categories",
+     *     tags={"Categories"},
+     *     summary="Liste toutes les catégories",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Liste des catégories récupérée avec succès",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(ref="#/components/schemas/Category")
+     *         )
+     *     )
+     * )
      */
     public function index(): JsonResponse
     {
@@ -47,7 +65,27 @@ class CategoryController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * @OA\Get(
+     *     path="/categories/{id}",
+     *     tags={"Categories"},
+     *     summary="Affiche une catégorie spécifique",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID de la catégorie",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Catégorie trouvée avec succès",
+     *         @OA\JsonContent(ref="#/components/schemas/Category")
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Catégorie non trouvée"
+     *     )
+     * )
      */
     public function show(Category $category): JsonResponse
     {

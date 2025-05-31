@@ -8,10 +8,33 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * @OA\Tag(
+ *     name="Orders",
+ *     description="API Endpoints pour la gestion des commandes"
+ * )
+ */
 class OrderController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * @OA\Get(
+     *     path="/orders",
+     *     tags={"Orders"},
+     *     summary="Liste toutes les commandes de l'utilisateur",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Liste des commandes récupérée avec succès",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(ref="#/components/schemas/Order")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Non authentifié"
+     *     )
+     * )
      */
     public function index(): JsonResponse
     {
@@ -19,20 +42,33 @@ class OrderController extends Controller
             ->with('orderItems.product')
             ->latest()
             ->get();
-
         return response()->json($orders);
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     * @OA\Post(
+     *     path="/orders",
+     *     tags={"Orders"},
+     *     summary="Crée une nouvelle commande",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"shipping_address"},
+     *             @OA\Property(property="shipping_address", type="string", example="123 Rue Example"),
+     *             @OA\Property(property="billing_address", type="string", example="123 Rue Example")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Commande créée avec succès",
+     *         @OA\JsonContent(ref="#/components/schemas/Order")
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Erreur de validation"
+     *     )
+     * )
      */
     public function store(Request $request): JsonResponse
     {

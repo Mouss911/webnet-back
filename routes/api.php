@@ -1,5 +1,33 @@
 <?php
 
+/**
+ * @OA\Info(
+ *     version="1.0.0",
+ *     title="E-commerce API Documentation",
+ *     description="Documentation de l'API E-commerce",
+ *     @OA\Contact(
+ *         email="votre@email.com",
+ *         name="Support API"
+ *     ),
+ *     @OA\License(
+ *         name="Apache 2.0",
+ *         url="http://www.apache.org/licenses/LICENSE-2.0.html"
+ *     )
+ * )
+ * 
+ * @OA\Server(
+ *     description="Local Environment",
+ *     url="http://localhost:8000/api"
+ * )
+ * 
+ * @OA\SecurityScheme(
+ *     securityScheme="bearerAuth",
+ *     type="http",
+ *     scheme="bearer",
+ *     bearerFormat="JWT"
+ * )
+ */
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ApiController;
