@@ -1221,6 +1221,10 @@
                         "format": "email",
                         "example": "john@example.com"
                     },
+                    "phone": {
+                        "type": "string",
+                        "example": "+33612345678"
+                    },
                     "role": {
                         "type": "string",
                         "enum": [
@@ -1228,11 +1232,6 @@
                             "admin"
                         ],
                         "example": "user"
-                    },
-                    "email_verified_at": {
-                        "type": "string",
-                        "format": "date-time",
-                        "nullable": true
                     },
                     "created_at": {
                         "type": "string",

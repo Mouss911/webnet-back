@@ -49,7 +49,8 @@ class ApiController extends Controller
          $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8'
+            'password' => 'required|string|min:6|confirmed',
+            'phone' => 'nullable|string|regex:/^\+?[1-9]\d{1,14}$/' // Format E.164
          ]);
 
         if ($validator->fails()) {
